@@ -22,6 +22,11 @@ import android.widget.Toast;
 
 
 
+
+
+
+
+
 public class MainActivity extends Activity
 {
 	private int seek;
@@ -32,8 +37,6 @@ public class MainActivity extends Activity
 	TextView textView4;
 	TextView textView5;
 	Menu menu;
-	AlertDialog.Builder ad;
-	Context context;
 
 
 
@@ -48,40 +51,23 @@ public class MainActivity extends Activity
 		textView3 = (TextView)findViewById(R.id.textView3);
 		textView4 = (TextView)findViewById(R.id.textView4);
 		textView5 = (TextView)findViewById(R.id.textView5);
-		context = MainActivity.this;
-        String title = "How to get more information";
-        String message = "Click bellow to learn more";
-        String button1String = "Visit MOMA";
-        String button2String = "Not now";
-        ad = new AlertDialog.Builder(context);
+	
+       		 String title = "How to get more information";
+       	 	String message = "Click bellow to learn more";
+       		 String button1String = "Visit MOMA";
+       	 	String button2String = "Not now";
+        
 
 		
 		mySeekBar = (SeekBar) findViewById(R.id.seekBar1);
 		updateBackground();
 		//menu.onOptionsItemSelected();
 		mySeekBar.setOnSeekBarChangeListener(seekBarChangeListener);
-		ad.setTitle(title);  // заголовок
-		ad.setMessage(message); // сообщение
-		ad.setPositiveButton(button1String, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int arg1) {
-				Uri webpage = Uri.parse("http://www.moma.org");
-				Intent baseIntent = new Intent(Intent.ACTION_VIEW, webpage); 
-				startActivity(baseIntent);
-			            }
-			        });
-			ad.setNegativeButton(button2String, new OnClickListener() {
-			public void onClick(DialogInterface dialog, int arg1) {
-					dialog.cancel();
+		
 
-			            }
-			        });
-			ad.setCancelable(true);
-			ad.setOnCancelListener(new OnCancelListener() {
-			public void onCancel(DialogInterface dialog) {
-			Toast.makeText(context, "Make your choice",
-			Toast.LENGTH_LONG).show();
-			            }
-			        });
+		
+			
+		//	        });
 
 		}
 
@@ -133,6 +119,57 @@ public class MainActivity extends Activity
 			return false;
 		}
 	}
+
+@Override
+public Dialog onCreateDialog(Bundle savedInstanceState) {
+AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+ad.setTitle(title);  // заголовок
+		ad.setMessage(message); // сообщение
+
+ad.setPositiveButton(button1String, new DialogInterface.OnClickListener(){
+			public void onClick(DialogInterface dialog, int arg1) {
+				Uri webpage = Uri.parse("http://www.moma.org");
+				Intent baseIntent = new Intent(Intent.ACTION_VIEW, webpage); 
+				startActivity(baseIntent);
+			            }
+			        });
+			ad.setNegativeButton(button2String, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int arg1) {
+					dialog.cancel();
+
+			            }
+			        });
+
+/*ad.setCancelable(true);
+			ad.setOnCancelListener(new OnCancelListener() {
+			public void onCancel(DialogInterface dialog) {
+			Toast.makeText(context, "Make your choice",
+			Toast.LENGTH_LONG).show();
+			            }
+
+return builder.create();
 }
+*/
+}
+
+
+Or
+new AlertDialog.Builder(context)
+    .setTitle("Delete entry")
+    .setMessage("Are you sure you want to delete this entry?")
+    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) { 
+            // continue with delete
+        }
+     })
+    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) { 
+            // do nothing
+        }
+     })
+    .setIcon(android.R.drawable.ic_dialog_alert)
+     .show();
+
+
 
 
